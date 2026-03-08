@@ -1,0 +1,24 @@
+site_name: NLRS Documentation
+site_description: 'A Library for Non-standard Linear Regression methods with Sparsity (NLRS).'
+
+theme:
+  name: material
+
+nav:
+  - Home: README.md
+  - Linear Models:
+      - Base: linear_model/base.md
+      - Linear: linear_model/linear.md
+      - SVM: linear_model/svm.md
+  - Objectives:
+      - Losses: objectives/losses.md
+      - Regularizers: objectives/regularizers.md
+  - Solvers:
+      - Base: solvers/base.md
+  - Utils:
+      - Selection: utils/selection.md
+      - Validation: utils/validation.md
+
+markdown_extensions:
+  - attr_list
+  - md_in_html

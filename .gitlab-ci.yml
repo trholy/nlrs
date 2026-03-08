@@ -1,0 +1,27 @@
+image: python:3.10
+
+stages:
+  - test
+  - deploy
+
+test:
+  stage: test
+  script:
+    - pip install -e .[dev]
+    - pytest tests/
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "push"
+
+pages:
+  stage: deploy
+  script:
+    - pip install mkdocs mkdocs-material
+    - cp LICENSE docs/
+    - cp README.md docs/
+    - mkdocs build
+    - mv site public
+  artifacts:
+    paths:
+      - public
+  only:
+    - main
