@@ -16,17 +16,19 @@ Built on top of the open-source Python-embedded modeling language `CVXPY`, `nlrs
 
 ---
 
+## Documentation
+
+Read the documentation on [GitLab Pages](https://to82lod.gitpages.uni-jena.de/nlrs/).
+
 ## Installation
 
 You can install `nlrs` locally by cloning the repository and installing it via `pip`:
 
 ```bash
-git clone <repository-url>
+git clone https://github.com/trholy/nlrs
 cd nlrs
 pip install .
 ```
-
-*(Note: Replacing `<repository-url>` with the actual Git remote URL for this project)*
 
 ---
 
