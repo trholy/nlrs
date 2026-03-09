@@ -56,12 +56,12 @@ The formulations below represent the mathematical objectives minimized via CVXPY
 
 #### `ElasticNet`
 - **Loss**: $\frac{1}{2n} \vert\vert X \beta - y \vert\vert_2^2$
-- **Penalties**: Combines $\ell_1$ (scaled by $\alpha \cdot \ell_1\_ratio$) and $\ell_2$ (scaled by $\alpha \cdot (1 - \ell_1\_ratio)$). Automatically accepts adaptive weights directed to the absolute scale expressions.
+- **Penalties**: Combines $\ell_1$ (scaled by $\alpha \cdot \ell_1\text{-ratio}$) and $\ell_2$ (scaled by $\alpha \cdot (1 - \ell_1\text{-ratio})$). Automatically accepts adaptive weights directed to the absolute scale expressions.
 
 #### `MultiTaskRegressor`
 - **Properties**: Shrinks the coefficients associated with specific features uniformly across $m$ targets.
 - **Loss Functions**: `squared_error`, `epsilon_insensitive`, `squared_epsilon_insensitive`, `huber`, `quantile`, `mae`.
-- **Penalties**: Generalizes $\ell_1$ norm to sum over the $L_2$ norms of the feature vectors $\sum_j ||\beta_{j}||_2$. Extends robustly to `adaptive` arrays bounding cross-target structures.
+- **Penalties**: Generalizes $\ell_1$ norm to sum over the $\ell_2$ norms of the feature vectors $\sum_j ||\beta_{j}||_2$. Extends robustly to `adaptive` arrays bounding cross-target structures.
 
 ### Support Vector Machines (`nlrs.linear_model.svm`)
 
