@@ -32,7 +32,7 @@ pip install .
 
 ---
 
-## Methods Matrix
+## Methods
 
 The formulations below represent the mathematical objectives minimized via CVXPY.
 
@@ -71,6 +71,73 @@ Optimizes via epsilon-insensitive margins allowing strict disregard for noise be
     - `epsilon_insensitive`: $\sum_{j}^{m} \max\left(\left| x_{j} \beta - y_{j} \right| - \epsilon, 0\right)$
     - `squared_epsilon_insensitive`: $\sum_{j}^{m} \left( \max\left(\left| x_{j} \beta - y_{j} \right| - \epsilon, 0\right) \right)^2$
 - **Penalties**: Natively integrates $\ell_1$, $\ell_2$, and combined Elastic Net constraints identically to linear models, including Adaptive weights support.
+
+---
+
+## Project Structure
+
+```
+./
+├── .gitignore
+├── .gitlab-ci.yml
+├── LICENSE
+├── README.md
+├── THIRD_PARTY_LICENSES.txt
+├── docs
+│   ├── linear_model
+│   │   ├── base.md
+│   │   ├── linear.md
+│   │   └── svm.md
+│   ├── objectives
+│   │   ├── losses.md
+│   │   └── regularizers.md
+│   ├── solvers
+│   │   └── base.md
+│   └── utils
+│       ├── selection.md
+│       └── validation.md
+├── examples
+│   ├── adaptive_lasso.py
+│   ├── multitask_lasso.py
+│   └── multitask_svr.py
+├── mkdocs.yml
+├── pyproject.toml
+├── setup.py
+├── src
+│   ├── nlrs
+│   │   ├── __init__.py
+│   │   ├── linear_model
+│   │   │   ├── __init__.py
+│   │   │   ├── base.py
+│   │   │   ├── linear.py
+│   │   │   └── svm.py
+│   │   ├── objectives
+│   │   │   ├── __init__.py
+│   │   │   ├── losses.py
+│   │   │   └── regularizers.py
+│   │   ├── solvers
+│   │   │   ├── __init__.py
+│   │   │   └── base.py
+│   │   └── utils
+│   │       ├── __init__.py
+│   │       ├── selection.py
+│   │       └── validation.py
+└── tests
+    ├── test_AdaptiveWeights.py
+    ├── test_adaptive.py
+    ├── test_adaptive_advanced.py
+    ├── test_collinear.py
+    ├── test_edge_cases.py
+    ├── test_linear.py
+    ├── test_losses.py
+    ├── test_multitask.py
+    ├── test_multitask_advanced.py
+    ├── test_sklearn_compat.py
+    ├── test_svm.py
+    └── test_validation.py
+```
+
+---
 
 ## License
 
