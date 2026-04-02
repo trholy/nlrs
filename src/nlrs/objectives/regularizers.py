@@ -3,6 +3,41 @@ import numpy as np
 from typing import Optional
 
 
+def _validate_penalty_alpha(alpha: float, penalty_name: str) -> None:
+    """
+    Validate regularization scale factor.
+
+    For convexity and intended shrinkage behavior, alpha must be finite and >= 0.
+    """
+    if not np.isscalar(alpha) or not np.isfinite(alpha):
+        raise ValueError(f"{penalty_name} alpha must be a finite scalar.")
+    if alpha < 0:
+        raise ValueError(f"{penalty_name} alpha must be non-negative.")
+
+
+def _validate_adaptive_weights_1d(
+        beta: cp.Variable,
+        adaptive_weights: np.ndarray,
+        penalty_name: str
+) -> np.ndarray:
+    """
+    Validate 1D adaptive weights for single-target penalties.
+    """
+    adaptive_weights = np.asarray(adaptive_weights, dtype=float)
+    if not np.all(np.isfinite(adaptive_weights)):
+        raise ValueError(f"For {penalty_name} penalty, adaptive_weights must be finite.")
+    if np.any(adaptive_weights < 0):
+        raise ValueError(f"For {penalty_name} penalty, adaptive_weights must be non-negative.")
+    if adaptive_weights.ndim != 1:
+        raise ValueError(f"For {penalty_name} penalty with 1D beta, adaptive_weights must be 1D.")
+    if adaptive_weights.shape[0] != beta.shape[0]:
+        raise ValueError(
+            f"For {penalty_name} penalty with 1D beta, adaptive_weights must have shape "
+            f"({beta.shape[0]},). Got {adaptive_weights.shape}."
+        )
+    return adaptive_weights
+
+
 def l1_penalty(
         beta: cp.Variable,
         alpha: float,
