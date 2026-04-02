@@ -392,10 +392,6 @@ class MultiTaskRegressor(_PenalizedLinearModel):
             epsilon: float = 0.0,
             fit_intercept: bool = True,
             positive: bool = False,
-            adaptive: bool = False,
-            adaptive_weights: Optional[np.ndarray] = None,
-            adaptive_weights_model: str = "lin_reg",
-            adaptive_weights_power: float = 1.0,
             solver: str = "CLARABEL",
             tol: float = 1e-5,
             warm_start: bool = False,
@@ -413,10 +409,6 @@ class MultiTaskRegressor(_PenalizedLinearModel):
             epsilon (float): Epsilon for epsilon-insensitive loss.
             fit_intercept (bool): Whether to calculate the intercept.
             positive (bool): When set to True, forces the coefficients to be positive.
-            adaptive (bool): Whether to use adaptive weights.
-            adaptive_weights (Optional[np.ndarray]): Array of weights for adaptive penalty.
-            adaptive_weights_model (str): Model to use for computing adaptive weights if not provided.
-            adaptive_weights_power (float): Power to raise the weights.
             solver (str): The solver to use.
             tol (float): Tolerance for the solver.
             warm_start (bool): Whether to reuse the solution of the previous call to fit.
@@ -427,10 +419,10 @@ class MultiTaskRegressor(_PenalizedLinearModel):
             alpha=alpha,
             fit_intercept=fit_intercept,
             positive=positive,
-            adaptive=adaptive,
-            adaptive_weights=adaptive_weights,
-            adaptive_weights_model=adaptive_weights_model,
-            adaptive_weights_power=adaptive_weights_power,
+            adaptive=False,
+            adaptive_weights=None,
+            adaptive_weights_model="lin_reg",
+            adaptive_weights_power=1.0,
             solver=solver,
             tol=tol,
             warm_start=warm_start,
@@ -441,33 +433,6 @@ class MultiTaskRegressor(_PenalizedLinearModel):
         self.loss = loss
         self.penalty = penalty
         self.epsilon = epsilon
-
-    def _get_adaptive_weights(self, X: np.ndarray, y: np.ndarray) -> np.ndarray:
-        """
-        Compute or return adaptive weights for multitask setting.
-        
-        Args:
-            X (np.ndarray): Training data.
-            y (np.ndarray): Target values.
-            
-        Returns:
-            np.ndarray: Computed adaptive weights.
-        """
-        if self.adaptive_weights is not None:
-            return self.adaptive_weights
-            
-        model = AdaptiveWeights(
-            model=self.adaptive_weights_model,
-            fit_intercept=self.fit_intercept,
-            scoring="neg_mean_squared_error",
-            alphas=(1e-6, 1e-5, 1e-4, 1e-3, 1e-2, 1e-1, 1.0),
-            adaptive_weights_power=self.adaptive_weights_power,
-            tol=1e-6,
-            random_state=42,
-            n_splits=5,
-            shuffle=True,
-        )
-        return model.get_weights(X, y).T
 
     def fit(self, X: np.ndarray, y: np.ndarray):
         """
@@ -491,7 +456,6 @@ class MultiTaskRegressor(_PenalizedLinearModel):
         intercept = cp.Variable(n_tasks) if self.fit_intercept else None
         
         constraints = [coef >= 0] if self.positive else []
-        weights = self._get_adaptive_weights(X, y_copy) if self.adaptive else None
         
         loss_expr = get_loss_expr(
             self.loss, X_copy, y_copy,
@@ -499,11 +463,11 @@ class MultiTaskRegressor(_PenalizedLinearModel):
         )
             
         if self.penalty == "l1":
-            reg_expr = l1_penalty(coef, self.alpha, weights)
+            reg_expr = l1_penalty(coef, self.alpha)
         elif self.penalty == "l2":
-            reg_expr = l2_penalty(coef, self.alpha, weights)
+            reg_expr = l2_penalty(coef, self.alpha)
         elif self.penalty == "l1_l2":
-            reg_expr = l1_l2_penalty(coef, self.alpha, self.l1_ratio, weights)
+            reg_expr = l1_l2_penalty(coef, self.alpha, self.l1_ratio)
         else:
             raise ValueError(f"Unknown penalty {self.penalty}")
 

@@ -56,6 +56,14 @@ def test_multitask_fallback():
     np.testing.assert_allclose(model.coef_, sk_lasso.coef_, atol=1e-1)
 
 
+def test_multitask_rejects_adaptive_arguments():
+    with pytest.raises(TypeError):
+        MultiTaskRegressor(alpha=0.1, adaptive=True)
+
+    with pytest.raises(TypeError):
+        MultiTaskRegressor(alpha=0.1, adaptive_weights=np.ones(3))
+
+
 @pytest.mark.parametrize("epsilon", [0.0, 0.1, 0.5])
 @pytest.mark.parametrize("loss", ["squared_error", "epsilon_insensitive", "squared_epsilon_insensitive"])
 @pytest.mark.parametrize("penalty", ["l1", "l2", "l1_l2"])

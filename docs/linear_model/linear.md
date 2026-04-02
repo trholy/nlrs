@@ -5,7 +5,7 @@ This module implements standard and penalized linear regression models (Lasso, R
 ## Special Capabilities
 
 - **Positivity Constraints**: Setting `positive=True` ensures all returned coefficients are non-negative.
-- **Adaptive Regularization**: Setting `adaptive=True` triggers the internal `AdaptiveWeights` scheme. Adaptive weights are applied to pure `l1` and pure `l2` penalties. For combined `l1_l2` (Elastic Net), adaptive weights apply only to the `l1` component.
+- **Adaptive Regularization**: In single-target models, setting `adaptive=True` triggers the internal `AdaptiveWeights` scheme. Adaptive weights are applied to pure `l1` and pure `l2` penalties. For combined `l1_l2` (Elastic Net), adaptive weights apply only to the `l1` component.
 - **Multi-Task Shrinkage**: The `MultiTaskRegressor` jointly applies grouped regularization schemes across multiple targets to identify shared structural sparsity.
 
 ## Classes
@@ -49,4 +49,4 @@ Advanced framework for multiple continuous dependent targets (shape `(n_samples,
 - `loss` (str): Allowed variations are `"squared_error"`, `"epsilon_insensitive"`, `"squared_epsilon_insensitive"`, `"huber"`, `"quantile"`, `"mae"`, and `"mean_absolute_error"` (with `"median_absolute_error"` kept as compatibility alias).
 - `penalty` (str): `"l1"`, `"l2"`, or `"l1_l2"`. Note that in MT settings, `"l1"` signifies mixed group norm $\sum_j ||\beta_j||_2$, encouraging row-wise (feature-level) sparsity globally across all tasks simultaneously.
 - `epsilon` (float, default `0.0`): Epsilon for epsilon-insensitive loss.
-- When `adaptive=True`, **Multi-Task Adaptive Elastic Net** effectively isolates core predictors invariant to arbitrary targets while scaling structural dependencies based on initial importance.
+- Adaptive weights are not supported for `MultiTaskRegressor`.
