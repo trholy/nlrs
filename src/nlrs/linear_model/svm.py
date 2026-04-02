@@ -85,7 +85,7 @@ class LinearSVR(_PenalizedLinearModel):
         weights = self._get_adaptive_weights(X, y) if self.adaptive else None
         
         if self.loss in [
-            "huber", "mae", "median_absolute_error", "quantile", "squared_error", "sum_squares"
+            "huber", "mae", "mean_absolute_error", "quantile", "squared_error", "sum_squares"
         ]:
             raise ValueError(f"LinearSVR does not support '{self.loss}' loss.")
         

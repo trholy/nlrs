@@ -129,15 +129,15 @@ def quantile(
     return (1 / n) * cp.sum(q * cp.pos(res) + (1 - q) * cp.neg(res))
 
 
-def median_absolute_error(
+def mean_absolute_error(
         X: np.ndarray,
         y: np.ndarray,
         beta: cp.Variable,
         intercept: Optional[cp.Variable] = None
 ) -> cp.Expression:
     """
-    Calculate the median absolute error (MAE) loss using quantile loss as a special case.
-    
+    Calculate the mean absolute error (MAE) loss using quantile loss as a special case.
+
     Args:
         X (np.ndarray): Training data.
         y (np.ndarray): Target values.
@@ -149,7 +149,7 @@ def median_absolute_error(
     """
     return 2 * quantile(X, y, beta, q=0.5, intercept=intercept)
 
-mae = median_absolute_error
+mae = mean_absolute_error
 
 
 def get_loss_expr(
@@ -189,8 +189,8 @@ def get_loss_expr(
         expr = quantile(X, y, coef, q, intercept)
         if multiply_by_n:
             expr = expr * n
-    elif loss_name in ["mae", "median_absolute_error"]:
-        expr = median_absolute_error(X, y, coef, intercept)
+    elif loss_name in ["mae", "mean_absolute_error"]:
+        expr = mean_absolute_error(X, y, coef, intercept)
         if multiply_by_n:
             expr = expr * n
     else:

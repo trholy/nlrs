@@ -60,7 +60,7 @@ The formulations below represent the mathematical objectives minimized via CVXPY
 
 #### `MultiTaskRegressor`
 - **Properties**: Shrinks the coefficients associated with specific features uniformly across $m$ targets.
-- **Loss Functions**: `squared_error`, `epsilon_insensitive`, `squared_epsilon_insensitive`, `huber`, `quantile`, `mae`.
+- **Loss Functions**: `squared_error`, `epsilon_insensitive`, `squared_epsilon_insensitive`, `huber`, `quantile`, `mae` (alias: `mean_absolute_error`).
 - **Penalties**: Generalizes $\ell_1$ norm to sum over the $\ell_2$ norms of the feature vectors $\sum_j ||\beta_{j}||_2$. Extends robustly to `adaptive` arrays bounding cross-target structures.
 
 ### Support Vector Machines (`nlrs.linear_model.svm`)

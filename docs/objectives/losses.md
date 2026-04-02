@@ -43,16 +43,16 @@ Calculates the generic, asymmetric quantile loss (also known as pinball loss).
     - `q` (float, default `0.5`): Quantile level to predict, must be strictly in `(0, 1)`.
 - **Returns**: `(1 / n) * cp.sum(q * cp.pos(y - preds) + (1 - q) * cp.neg(y - preds))`
 
-### `median_absolute_error` (`mae`)
+### `mean_absolute_error` (`mae`)
 
-Calculates the Median Absolute Error loss. Equivalent mathematically to `2 * quantile(X, y, beta, q=0.5)`. This is the basic symmetric $L_1$ loss on residuals.
+Calculates the Mean Absolute Error loss. Equivalent mathematically to `2 * quantile(X, y, beta, q=0.5)`. This is the basic symmetric $L_1$ loss on residuals.
 - **Args**:
     - `X`, `y`, `beta`, `intercept`: General parameters.
 - **Returns**: `2 * quantile(X, y, beta, q=0.5, intercept=intercept)`
 
 ### `get_loss_expr`
 
-A factory wrapper returning the exact constructed expression based on string handles (`"squared_error"`, `"sum_squares"`, `"epsilon_insensitive"`, `"squared_epsilon_insensitive"`, `"huber"`, `"quantile"`, `"mae"`, `"median_absolute_error"`).
+A factory wrapper returning the exact constructed expression based on string handles (`"squared_error"`, `"sum_squares"`, `"epsilon_insensitive"`, `"squared_epsilon_insensitive"`, `"huber"`, `"quantile"`, `"mae"`, `"mean_absolute_error"`).
 - **Args**: Same standard parameters plus:
     - `epsilon` (float): for epsilon-insensitive losses.
     - `M` (float): for Huber loss.
