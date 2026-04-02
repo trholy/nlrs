@@ -98,7 +98,7 @@ class LinearSVR(_PenalizedLinearModel):
         elif self.penalty == "l2":
             return self._fit_linear_penalized(
                 X, y, l2_penalty, loss=self.loss,
-                epsilon=self.epsilon, alpha=self.alpha * 2
+                epsilon=self.epsilon, alpha=self.alpha * 2, adaptive_weights=weights
             )
         elif self.penalty == "l1_l2":
             return self._fit_linear_penalized(

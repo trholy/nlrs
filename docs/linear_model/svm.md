@@ -16,7 +16,7 @@ A linear Support Vector Regressor formulation leveraging CVXPY for direct primal
 - `loss` (str, default `"epsilon_insensitive"`): The base cost function. Can also be paired with `"squared_epsilon_insensitive"` for a smoothed L2-style SVR variant.
 - `penalty` (str, default `"l2"`): Type of shrinkage, chosen from `"l1"`, `"l2"`, or `"l1_l2"`.
 - `positive` (bool, default `False`): Confines the model strictly to non-negative features.
-- `adaptive` (bool, default `False`): When `True`, modifies the specified penalties by initial magnitude weights, achieving variants like the **Adaptive Linear SVR**.
+- `adaptive` (bool, default `False`): When `True`, applies adaptive weights to pure `l1` and pure `l2` penalties. For `l1_l2`, adaptive weights are applied only to the `l1` component.
 
 By utilizing `epsilon_insensitive` loss alongside an `'l1_l2'` penalty and `adaptive=True`, users can formulate robust, sparsity-inducing target optimizations resistant to volatile target distributions.
 

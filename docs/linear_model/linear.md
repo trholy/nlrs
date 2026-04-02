@@ -5,7 +5,7 @@ This module implements standard and penalized linear regression models (Lasso, R
 ## Special Capabilities
 
 - **Positivity Constraints**: Setting `positive=True` ensures all returned coefficients are non-negative.
-- **Adaptive Regularization**: For appropriate models (`Lasso`, `ElasticNet`, `MultiTaskRegressor`), setting `adaptive=True` triggers the internal `AdaptiveWeights` scheme. This applies feature-specific weighting (often proportional to $\frac{1}{|\beta_{init}|^\gamma}$), which significantly enhances the feature selection consistency compared to strictly uniform regularization.
+- **Adaptive Regularization**: Setting `adaptive=True` triggers the internal `AdaptiveWeights` scheme. Adaptive weights are applied to pure `l1` and pure `l2` penalties. For combined `l1_l2` (Elastic Net), adaptive weights apply only to the `l1` component.
 - **Multi-Task Shrinkage**: The `MultiTaskRegressor` jointly applies grouped regularization schemes across multiple targets to identify shared structural sparsity.
 
 ## Classes

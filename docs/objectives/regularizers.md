@@ -25,4 +25,4 @@ Constructs Ridge regression formulations $L_2^2$ or Group Ridge representations.
 
 Elastic Net penalty cleanly merging both $L_1$ and $L_2$ constraints proportionally defined by `l1_ratio`.
 - **Methodology**: Distributes `alpha * l1_ratio` to the `l1_penalty` and `alpha * (1 - l1_ratio)` to the `l2_penalty`.
-- Works natively with `adaptive_weights` explicitly directed into the $L_{1}$ sub-component, realizing **Adaptive Elastic Net** combinations.
+- Works natively with `adaptive_weights` directed only into the $L_1$ sub-component, i.e. Adaptive Elastic Net keeps the $\ell_2$ part unweighted.

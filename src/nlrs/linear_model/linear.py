@@ -307,8 +307,9 @@ class Ridge(_PenalizedLinearModel):
         Returns:
             self: Returns an instance of self.
         """
+        weights = self._get_adaptive_weights(X, y) if self.adaptive else None
         return self._fit_linear_penalized(
-            X, y, l2_penalty, loss="sum_squares", alpha=self.alpha * 2
+            X, y, l2_penalty, loss="sum_squares", alpha=self.alpha * 2, adaptive_weights=weights
         )
 
 
@@ -505,7 +506,7 @@ class MultiTaskRegressor(_PenalizedLinearModel):
         if self.penalty == "l1":
             reg_expr = l1_penalty(coef, self.alpha, weights)
         elif self.penalty == "l2":
-            reg_expr = l2_penalty(coef, self.alpha)
+            reg_expr = l2_penalty(coef, self.alpha, weights)
         elif self.penalty == "l1_l2":
             reg_expr = l1_l2_penalty(coef, self.alpha, self.l1_ratio, weights)
         else:
