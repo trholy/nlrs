@@ -46,6 +46,9 @@ def epsilon_insensitive(
     Returns:
         cp.Expression: The epsilon-insensitive loss expression.
     """
+    if not np.isfinite(epsilon) or epsilon < 0:
+        raise ValueError("Epsilon must be a finite non-negative value.")
+
     n = X.shape[0]
     preds = X @ beta + intercept if intercept is not None else X @ beta
     return (1 / n) * cp.sum(cp.pos(cp.abs(preds - y) - epsilon))
@@ -71,6 +74,9 @@ def squared_epsilon_insensitive(
     Returns:
         cp.Expression: The squared epsilon-insensitive loss expression.
     """
+    if not np.isfinite(epsilon) or epsilon < 0:
+        raise ValueError("Epsilon must be a finite non-negative value.")
+
     n = X.shape[0]
     preds = X @ beta + intercept if intercept is not None else X @ beta
     return (1 / n) * cp.sum(cp.power(cp.pos(cp.abs(preds - y) - epsilon), 2))
