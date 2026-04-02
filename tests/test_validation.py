@@ -1,6 +1,5 @@
 import pytest
 import numpy as np
-import cvxpy as cp
 from nlrs.linear_model import Ridge
 
 
@@ -9,8 +8,8 @@ def test_invalid_alpha():
     y = np.random.randn(10)
     
     model = Ridge(alpha=-1.0)
-    # CVXPY throws DCPError when parameter is negative but formulated as positive norm
-    with pytest.raises(cp.error.DCPError):
+    # Input validation should reject mathematically invalid negative regularization.
+    with pytest.raises(ValueError, match="non-negative"):
         model.fit(X, y)
 
 
