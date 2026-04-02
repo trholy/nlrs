@@ -19,3 +19,8 @@ A linear Support Vector Regressor formulation leveraging CVXPY for direct primal
 - `adaptive` (bool, default `False`): When `True`, modifies the specified penalties by initial magnitude weights, achieving variants like the **Adaptive Linear SVR**.
 
 By utilizing `epsilon_insensitive` loss alongside an `'l1_l2'` penalty and `adaptive=True`, users can formulate robust, sparsity-inducing target optimizations resistant to volatile target distributions.
+
+#### Formulation Note vs scikit-learn
+
+`nlrs` does **not** regularize the intercept term in `LinearSVR`.  
+`scikit-learn`'s `LinearSVR` (liblinear backend) regularizes the synthetic intercept feature controlled by `intercept_scaling`, so objectives can differ slightly even with matched hyperparameters.

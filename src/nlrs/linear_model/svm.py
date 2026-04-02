@@ -30,6 +30,9 @@ class LinearSVR(_PenalizedLinearModel):
     ):
         """
         Initialize the LinearSVR model.
+
+        Note:
+            This implementation does not regularize the intercept term.
         
         Args:
             alpha (float): Constant that multiplies the penalty terms.
