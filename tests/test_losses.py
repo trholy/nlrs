@@ -1,12 +1,12 @@
 import numpy as np
 import cvxpy as cp
 import scipy.special
-from sklearn.metrics import mean_absolute_error, mean_pinball_loss
+from sklearn.metrics import mean_absolute_error as sk_mean_absolute_error, mean_pinball_loss
 import pytest
 from nlrs.objectives.losses import (
     huber,
     quantile,
-    median_absolute_error
+    mean_absolute_error as nlrs_mean_absolute_error
 )
 
 
@@ -52,11 +52,11 @@ def test_quantile_loss(regression_data):
 def test_mae_loss(regression_data):
     X, y, beta = regression_data
     
-    expr = median_absolute_error(X, y, beta)
+    expr = nlrs_mean_absolute_error(X, y, beta)
     cvx_val = expr.value
     
     preds = X @ beta.value
-    np_val = mean_absolute_error(y, preds)
+    np_val = sk_mean_absolute_error(y, preds)
     
     np.testing.assert_allclose(cvx_val, np_val)
     
