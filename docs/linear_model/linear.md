@@ -46,7 +46,7 @@ Model balancing both $L_1$ and $L_2$ penalties for stable feature selection amon
 Advanced framework for multiple continuous dependent targets (shape `(n_samples, n_tasks)`). Implements "Group Lasso" / "Group Elastic Net" styles by applying $L_{2,1}$ or $L_{2,2}$ norms to the coefficient matrix.
 - `alpha` (float, default `1.0`): Constant that multiplies the penalty terms.
 - `l1_ratio` (float, default `0.5`): The ElasticNet mixing parameter.
-- `loss` (str): Allowed variations are `"squared_error"`, `"epsilon_insensitive"`, `"squared_epsilon_insensitive"`, `"huber"`, `"quantile"`, `"mae"`, and `"mean_absolute_error"` (with `"median_absolute_error"` kept as compatibility alias).
+- `loss` (str): Allowed variations are `"squared_error"`, `"epsilon_insensitive"`, `"squared_epsilon_insensitive"`, `"huber"`, `"quantile"`, `"mae"`, and `"mean_absolute_error"`.
 - `penalty` (str): `"l1"`, `"l2"`, or `"l1_l2"`. Note that in MT settings, `"l1"` signifies mixed group norm $\sum_j ||\beta_j||_2$, encouraging row-wise (feature-level) sparsity globally across all tasks simultaneously.
 - `epsilon` (float, default `0.0`): Epsilon for epsilon-insensitive loss.
 - Adaptive weights are not supported for `MultiTaskRegressor`.
