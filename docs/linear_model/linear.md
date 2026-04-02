@@ -33,11 +33,13 @@ Lasso model optimizing the squared error with an $L_1$ penalty. Encourages high 
 ### `Ridge(_PenalizedLinearModel)`
 
 Ridge model optimizing the squared error with an $L_2$ penalty, preventing large weights and gracefully handling multicollinearity.
+- When `adaptive=True`, applies feature-dependent weighting to the squared $L_2$ terms.
 
 ### `ElasticNet(_PenalizedLinearModel)`
 
 Model balancing both $L_1$ and $L_2$ penalties for stable feature selection among correlated groups.
 - `l1_ratio` (float, default `0.5`): Mix between $L_1$ ($1.0$) and $L_2$ ($0.0$). 
+- When `adaptive=True`, adaptive weights apply only to the $L_1$ sub-component.
 
 ### `MultiTaskRegressor(_PenalizedLinearModel)`
 
