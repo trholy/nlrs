@@ -132,7 +132,7 @@ class _PenalizedLinearModel(BaseConvexLinearModel):
             
         model = AdaptiveWeights(
             model=self.adaptive_weights_model,
-            fit_intercept=True,
+            fit_intercept=self.fit_intercept,
             scoring="neg_mean_squared_error",
             alphas=(1e-6, 1e-5, 1e-4, 1e-3, 1e-2, 1e-1, 1.0),
             adaptive_weights_power=self.adaptive_weights_power,
@@ -458,7 +458,7 @@ class MultiTaskRegressor(_PenalizedLinearModel):
             
         model = AdaptiveWeights(
             model=self.adaptive_weights_model,
-            fit_intercept=True,
+            fit_intercept=self.fit_intercept,
             scoring="neg_mean_squared_error",
             alphas=(1e-6, 1e-5, 1e-4, 1e-3, 1e-2, 1e-1, 1.0),
             adaptive_weights_power=self.adaptive_weights_power,
