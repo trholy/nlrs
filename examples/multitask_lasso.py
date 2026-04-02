@@ -35,7 +35,7 @@ all_coefs = np.concatenate(
 vmax = np.percentile(np.abs(all_coefs), 99)
 vmin = -vmax
 
-fig, axes = plt.subplots(1, 3, figsize=(12, 4), constrained_layout=True)
+fig, axes = plt.subplots(2, 3, figsize=(12, 7), constrained_layout=True)
 
 plots = [
     (coef.T, "Ground Truth"),
@@ -43,7 +43,15 @@ plots = [
     (coef_multi_task_lasso_.T, "Multi-Task Lasso"),
 ]
 
-for ax, mat, title in zip(axes, [p[0] for p in plots], [p[1] for p in plots]):
+masks = [
+    (nz_true, "Ground Truth"),
+    (nz_lasso, "Independent LASSO"),
+    (nz_mtl, "Multi-Task Lasso"),
+]
+
+# --- Top row: coefficient heatmaps ---
+for col, (mat, title) in enumerate(plots):
+    ax = axes[0, col]
     im = ax.imshow(
         mat,
         aspect="auto",
@@ -54,15 +62,24 @@ for ax, mat, title in zip(axes, [p[0] for p in plots], [p[1] for p in plots]):
         interpolation="nearest",
     )
     ax.set_title(title)
-    ax.set_xlabel("Task", size=14)
-    ax.set_ylabel("Feature", size=14)
+    ax.set_title(f"{title} (Importance)")
+    ax.set_xlabel("Task", size=12)
+    ax.set_ylabel("Feature", size=12)
 
-# shared colorbar
-cbar = fig.colorbar(im, ax=axes, shrink=0.9)
-cbar.set_label("Coefficient value", fontsize=14)
+# shared colorbar for top row
+cbar = fig.colorbar(im, ax=axes[0, :], shrink=0.8)
+cbar.set_label("Coefficient value", fontsize=12)
+
+# --- Bottom row: binary selection masks ---
+for col, (mask, title) in enumerate(masks):
+    ax = axes[1, col]
+    ax.imshow(mask, aspect="auto", origin="lower", cmap="gray_r")
+    ax.set_title(f"{title} (Selection)")
+    ax.set_xlabel("Task", size=12)
+    ax.set_ylabel("Feature", size=12)
 
 fig.suptitle(
-    "Independent LASSO Regression vs Multi-Task Lasso",
+    "Independent LASSO vs Multi-Task Lasso: Coefficients and Group Sparsity",
     fontsize=16,
 )
 plt.show()
