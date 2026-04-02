@@ -4,6 +4,8 @@ import scipy.special
 from sklearn.metrics import mean_absolute_error as sk_mean_absolute_error, mean_pinball_loss
 import pytest
 from nlrs.objectives.losses import (
+    epsilon_insensitive,
+    squared_epsilon_insensitive,
     huber,
     quantile,
     mean_absolute_error as nlrs_mean_absolute_error
@@ -72,3 +74,11 @@ def test_invalid_quantile(regression_data):
     
     with pytest.raises(ValueError):
         quantile(X, y, beta, q=1.5)
+
+
+def test_invalid_epsilon(regression_data):
+    X, y, beta = regression_data
+    with pytest.raises(ValueError, match="non-negative"):
+        epsilon_insensitive(X, y, beta, epsilon=-0.1)
+    with pytest.raises(ValueError, match="non-negative"):
+        squared_epsilon_insensitive(X, y, beta, epsilon=-0.1)
