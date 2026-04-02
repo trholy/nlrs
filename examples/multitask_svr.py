@@ -41,48 +41,36 @@ mt_lasso.fit(X, Y_corrupted)
 # 2. Multi-Task SVR (Epsilon-Insensitive Loss) with L1 Penalty
 # Epsilon-insensitive loss ignores errors smaller than epsilon and scales linearly for large errors (robust to outliers)
 mt_svr = MultiTaskRegressor(
-    loss="epsilon_insensitive", epsilon=1, penalty="l1", alpha=1.1
+    loss="epsilon_insensitive", epsilon=0.75, penalty="l1", alpha=1.0
 )
 mt_svr.fit(X, Y_corrupted)
-
-# 3. Adaptive Multi-Task SVR
-# Yields the robustness of epsilon-insensitive loss with the Oracle feature selection of Adaptive Lasso
-mt_adaptive_svr = MultiTaskRegressor(
-    loss="epsilon_insensitive", epsilon=1, penalty="l1", alpha=1.1, adaptive_weights_power=0.8, adaptive=True,
-)
-mt_adaptive_svr.fit(X, Y_corrupted)
 
 # Calculate Mean Absolute Error (MAE corresponds better to epsilon-insensitive loss)
 # We evaluate on the clean target to see how well they recovered the true signal!
 mae_lasso = mean_absolute_error(Y_clean, mt_lasso.predict(X))
 mae_svr = mean_absolute_error(Y_clean, mt_svr.predict(X))
-mae_adapt = mean_absolute_error(Y_clean, mt_adaptive_svr.predict(X))
 
 print(f"Standard Multi-Task Lasso (Squared Loss) Score on clean data: {mae_lasso:.2f} MAE")
 print(f"Multi-Task SVR (Epsilon-Insensitive) Score on clean data: {mae_svr:.2f} MAE")
-print(f"Adaptive Multi-Task SVR Score on clean data: {mae_adapt:.2f} MAE")
 
 # --- Build non-zero masks (group sparsity view) ---
 nz_true = (true_coef != 0).T.astype(float)
 nz_lasso = (mt_lasso.coef_ != 0).T.astype(float)
 nz_svr = (mt_svr.coef_ != 0).T.astype(float)
-nz_adapt_svr = (mt_adaptive_svr.coef_ != 0).T.astype(float)
 
 # --- Integrated plot: coefficients + selection ---
-fig, axes = plt.subplots(2, 4, figsize=(16, 8), constrained_layout=True)
+fig, axes = plt.subplots(2, 3, figsize=(14, 8), constrained_layout=True)
 
 plots = [
     (true_coef.T, "Ground Truth"),
     (mt_lasso.coef_.T, "MT Lasso\n(Corrupted)"),
-    (mt_svr.coef_.T, "MT SVR\n(Robust)"),
-    (mt_adaptive_svr.coef_.T, "Adaptive MT SVR\n(Robust + Sparse)")
+    (mt_svr.coef_.T, "MT SVR\n(Robust)")
 ]
 
 masks = [
     (nz_true, "Ground Truth"),
     (nz_lasso, "MT Lasso"),
     (nz_svr, "MT SVR"),
-    (nz_adapt_svr, "Adaptive MT SVR"),
 ]
 
 # --- Shared color scale (coefficients only!) ---
