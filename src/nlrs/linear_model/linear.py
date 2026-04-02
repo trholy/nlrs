@@ -467,11 +467,6 @@ class MultiTaskRegressor(_PenalizedLinearModel):
             n_splits=5,
             shuffle=True,
         )
-        if self.fit_intercept:
-            # We must get weights matching X without intercept
-            # Wait, the original code had (X[:, 1:], y)).T and then Transpose
-            # The weights for multitask is returning shape per task.
-            return model.get_weights(X, y).T
         return model.get_weights(X, y).T
 
     def fit(self, X: np.ndarray, y: np.ndarray):
