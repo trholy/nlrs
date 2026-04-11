@@ -111,3 +111,30 @@ def test_linearsvr_parameters(regression_data, epsilon, loss, penalty):
         pytest.fail(
             f"LinearSVR failed with epsilon={epsilon}, loss={loss}, penalty={penalty}: {e}"
         )
+
+
+@pytest.mark.parametrize(
+    "loss",
+    [
+        "squared_error",
+        "sum_squares",
+        "huber",
+        "quantile",
+        "mae",
+        "mean_absolute_error",
+    ],
+)
+@pytest.mark.parametrize("penalty", ["l1", "l2", "l1_l2"])
+def test_linearsvr_supports_all_losses(regression_data, loss, penalty):
+    X, y, _ = regression_data
+    model = LinearSVR(
+        alpha=0.1,
+        l1_ratio=0.5 if penalty == "l1_l2" else 0.0,
+        epsilon=0.1,
+        loss=loss,
+        penalty=penalty,
+        fit_intercept=True,
+        solver="SCS",
+    )
+    model.fit(X, y)
+    assert model.coef_ is not None
