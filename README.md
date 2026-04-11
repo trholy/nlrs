@@ -68,8 +68,7 @@ The formulations below represent the objectives minimized via CVXPY.
 #### `LinearSVR`
 Optimizes via epsilon-insensitive margins allowing strict disregard for noise below the margin threshold $\epsilon$.
 - **Loss Functions**:
-    - `epsilon_insensitive`: $\sum_{j}^{m} \max\left(\left| x_{j} \beta - y_{j} \right| - \epsilon, 0\right)$
-    - `squared_epsilon_insensitive`: $\sum_{j}^{m} \left( \max\left(\left| x_{j} \beta - y_{j} \right| - \epsilon, 0\right) \right)^2$
+    - Supports all losses from `nlrs.objectives.losses.get_loss_expr`: `squared_error`, `sum_squares`, `epsilon_insensitive`, `squared_epsilon_insensitive`, `huber`, `quantile`, `mae` (alias `mean_absolute_error`).
 - **Penalties**: Natively integrates $\ell_1$, $\ell_2$, and Elastic Net penalty. Adaptive weights apply to pure $\ell_1$- or $\ell_2$-penalty; for $\ell_1\ell_2$-penalty, only the $\ell_1$ part is weighted.
 - **Intercept Regularization Note**: `nlrs.linear_model.svm.LinearSVR` does not regularize the intercept term, while scikit-learn/liblinear regularizes the intercept feature (`intercept_scaling`).
 

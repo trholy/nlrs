@@ -38,7 +38,8 @@ class LinearSVR(_PenalizedLinearModel):
             alpha (float): Constant that multiplies the penalty terms.
             epsilon (float): Epsilon for epsilon-insensitive loss.
             l1_ratio (float): The ElasticNet mixing parameter.
-            loss (str): Loss function to use.
+            loss (str): Loss function to use. Any loss supported by
+                nlrs.objectives.losses.get_loss_expr is valid.
             penalty (str): Penalty function to use ('l1', 'l2', 'l1_l2').
             fit_intercept (bool): Whether to calculate the intercept.
             positive (bool): When set to True, forces the coefficients to be positive.
@@ -83,12 +84,7 @@ class LinearSVR(_PenalizedLinearModel):
             self: Returns an instance of self.
         """
         weights = self._get_adaptive_weights(X, y) if self.adaptive else None
-        
-        if self.loss in [
-            "huber", "mae", "mean_absolute_error", "quantile", "squared_error", "sum_squares"
-        ]:
-            raise ValueError(f"LinearSVR does not support '{self.loss}' loss.")
-        
+
         if self.penalty == "l1":
             return self._fit_linear_penalized(
                 X, y, l1_penalty, loss=self.loss,
