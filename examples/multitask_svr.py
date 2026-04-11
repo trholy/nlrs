@@ -35,13 +35,13 @@ for t in range(n_tasks):
 
 # 1. Standard Multi-Task Lasso (Squared Error Loss)
 # Highly susceptible to outliers
-mt_lasso = MultiTaskRegressor(loss="squared_error", penalty="l1", alpha=0.1)
+mt_lasso = MultiTaskRegressor(loss="squared_error", penalty="l1", alpha=5)
 mt_lasso.fit(X, Y_corrupted)
 
 # 2. Multi-Task SVR (Epsilon-Insensitive Loss) with L1 Penalty
 # Epsilon-insensitive loss ignores errors smaller than epsilon and scales linearly for large errors (robust to outliers)
 mt_svr = MultiTaskRegressor(
-    loss="epsilon_insensitive", epsilon=0.75, penalty="l1", alpha=1.0
+    loss="epsilon_insensitive", epsilon=0.75, penalty="l1", alpha=1
 )
 mt_svr.fit(X, Y_corrupted)
 
